@@ -84,7 +84,7 @@ npm run gen-icon  # assets/tray-icon.png -> assets/tray-icon.ico
 │   └── sample-novel.json # 内置示例小说
 ├── assets                # 托盘与应用图标
 ├── scripts
-│   ├── gen-icon.js       # PNG -> ICO
+│   ├── gen-icon.js       # 由 PNG 生成最小尺寸 ICO（带覆盖保护）
 │   ├── sync.sh           # GitHub ⇄ Gitee 同步核心逻辑
 │   └── keepalive.sh      # 定时任务保活心跳
 ├── .github
@@ -92,6 +92,9 @@ npm run gen-icon  # assets/tray-icon.png -> assets/tray-icon.ico
 │   └── keepalive.txt     # 心跳文件（由 workflow 自动更新）
 └── test                  # novel-parser 单元测试（node --test）
 ```
+
+> `assets/tray-icon.ico` 随源码提供的是 **4 层多分辨率**版本（48 / 32 / 16 / 256），Windows 会按当前 DPI 挑选合适的一层。
+> `npm run gen-icon` 生成的只是由 PNG 内嵌而来的单层最小 ICO，体积更小但高分屏效果较差，因此该脚本默认带覆盖保护；确实需要替换时用 `npm run gen-icon:force`。
 
 `novel-parser.js` 不依赖 Electron，可以单独在 Node 中调用或做单元测试：
 
