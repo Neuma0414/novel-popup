@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>资讯推送</title>
+  <link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+  <div id="card">
+    <div class="titlebar">
+      <div class="brand">
+        <span class="brand-icon">讯</span>
+        <span class="source">资讯推送</span>
+        <span class="dot">·</span>
+        <span id="time" class="time">刚刚</span>
+      </div>
+      <button id="menuBtn" class="more-btn" title="更多">⋯</button>
+      <button id="close" class="fake-close" title="关闭">×</button>
+    </div>
+
+    <div id="menu" class="menu hidden">
+      <button class="menu-item" data-act="prev">‹ 上一章</button>
+      <button class="menu-item" data-act="next">下一章 ›</button>
+      <button class="menu-item" data-act="import">导入 txt</button>
+      <button class="menu-item" data-act="settings">设置</button>
+    </div>
+
+    <div class="headline" id="headline">加载中…</div>
+    <div class="meta" id="meta">来源：本地资讯</div>
+
+    <div class="body" id="body"></div>
+
+    <div class="footer">
+      <span id="progress" class="progress">已读 0%</span>
+      <button id="more" class="more">阅读全文 ›</button>
+    </div>
+
+    <div class="related">
+      <div class="rel-title">相关推荐</div>
+      <div class="rel-list">
+        <div class="rel-item"><div class="rel-thumb">热</div><div class="rel-text">今日要闻：城市夜色里的暖心瞬间</div></div>
+        <div class="rel-item"><div class="rel-thumb alt">本地</div><div class="rel-text">本地热点：周末去哪儿逛才不踩雷</div></div>
+        <div class="rel-item"><div class="rel-thumb alt2">生活</div><div class="rel-text">生活观：把普通一天过出滋味的方法</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 设置面板 -->
+  <div id="settingsPanel" class="panel hidden">
+    <div class="panel-head">设置</div>
+    <label class="field">
+      <span>自动弹出间隔（分钟）</span>
+      <input id="setInterval" type="number" min="1" max="120" />
+    </label>
+    <label class="field">
+      <span>Boss 键（点输入框后按下组合键）</span>
+      <input id="setBoss" type="text" readonly placeholder="点击此处设置" data-require-mod="1" />
+    </label>
+    <div class="field-group-title">阅读快捷键（弹窗聚焦时生效）</div>
+    <label class="field">
+      <span>上一章（需配合 Ctrl/Alt/Shift）</span>
+      <input id="setPrev" type="text" readonly placeholder="点击此处设置" data-require-mod="1" />
+    </label>
+    <label class="field">
+      <span>下一章（需配合 Ctrl/Alt/Shift）</span>
+      <input id="setNext" type="text" readonly placeholder="点击此处设置" data-require-mod="1" />
+    </label>
+    <label class="field">
+      <span>向上滚动</span>
+      <input id="setScrollUp" type="text" readonly placeholder="点击此处设置" />
+    </label>
+    <label class="field">
+      <span>向下滚动</span>
+      <input id="setScrollDown" type="text" readonly placeholder="点击此处设置" />
+    </label>
+    <label class="field row">
+      <span>开机自启动</span>
+      <input id="setAuto" type="checkbox" />
+    </label>
+    <label class="field row">
+      <span>默认展开全文（进入即阅读全文）</span>
+      <input id="setFull" type="checkbox" />
+    </label>
+    <div class="panel-tip">Boss 键：随时秒隐/还原弹窗（全局，无需聚焦）。阅读快捷键在弹窗聚焦时生效。上下滚动可直接用方向键，上一章/下一章需配合 Ctrl/Alt/Shift 以防误触。假关闭(×)只是收进托盘。</div>
+    <div class="panel-actions">
+      <button id="setCancel" class="tool">取消</button>
+      <button id="setSave" class="tool primary">保存</button>
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

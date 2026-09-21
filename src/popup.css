@@ -1,0 +1,150 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body {
+  background: transparent;
+  font-family: -apple-system, "PingFang SC", "Microsoft YaHei", "Segoe UI", sans-serif;
+  color: #1f2329;
+  -webkit-user-select: none;
+  user-select: none;
+  overflow: hidden;
+}
+
+#card {
+  width: 360px;
+  height: 480px;
+  background: #ffffff;
+  border-radius: 14px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+/* 顶栏 */
+.titlebar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 12px;
+  border-bottom: 1px solid #f0f0f0;
+  -webkit-app-region: drag;
+}
+.brand { display: flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 600; color: #8a8f99; }
+.brand-icon {
+  width: 24px; height: 24px; border-radius: 6px;
+  background: linear-gradient(135deg, #ff5a5f, #ff8a3d);
+  color: #fff; font-size: 14px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+}
+.source { color: #ff5a5f; font-weight: 700; font-size: 15px; }
+.dot { color: #c5c9d0; }
+.time { color: #8a8f99; font-size: 13px; }
+.fake-close {
+  -webkit-app-region: no-drag;
+  width: 22px; height: 22px; border: none; background: transparent;
+  color: #b0b4bd; font-size: 20px; line-height: 1; cursor: pointer; border-radius: 6px;
+}
+.fake-close:hover { background: #f2f3f5; color: #ff5a5f; }
+
+/* 标题栏「⋯」更多按钮 */
+.more-btn {
+  -webkit-app-region: no-drag;
+  border: none; background: transparent; color: #b0b4bd;
+  font-size: 20px; line-height: 1; width: 24px; height: 24px;
+  cursor: pointer; border-radius: 6px; margin-right: 4px;
+}
+.more-btn:hover { background: #f2f3f5; color: #ff5a5f; }
+
+/* 下拉菜单 */
+.menu {
+  position: absolute; top: 46px; right: 12px;
+  background: #fff; border: 1px solid #eceef1; border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.16);
+  padding: 6px; min-width: 132px; z-index: 50;
+  -webkit-app-region: no-drag;
+}
+.menu.hidden { display: none; }
+.menu-item {
+  display: block; width: 100%; text-align: left;
+  border: none; background: transparent; color: #51565e;
+  font-size: 13px; padding: 9px 10px; border-radius: 7px; cursor: pointer;
+}
+.menu-item:hover { background: #f6f7f9; color: #ff5a5f; }
+
+/* 标题与正文（小说区整体弱化） */
+.headline {
+  padding: 12px 14px 4px;
+  font-size: 17px; font-weight: 700; line-height: 1.35; color: #1f2329;
+}
+.meta { padding: 2px 14px 8px; font-size: 12px; color: #9aa0a6; }
+.body {
+  flex: 1;
+  padding: 4px 14px;
+  overflow-y: auto;
+  font-size: 13.5px; line-height: 1.85; color: rgba(90, 96, 105, 0.72);
+  -webkit-user-select: text;
+  user-select: text;
+  transition: color .25s;
+}
+.body p { margin-bottom: 10px; animation: fadein .4s ease; }
+@keyframes fadein { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+
+/* 滚动条：平时隐藏，滚动时短暂显示 */
+.body::-webkit-scrollbar { width: 4px; }
+.body::-webkit-scrollbar-thumb { background: transparent; border-radius: 2px; transition: background .35s; }
+.body.scrolling::-webkit-scrollbar-thumb { background: rgba(0, 0, 0, 0.22); }
+
+/* 底部进度 */
+.footer {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 8px 14px; border-top: 1px solid #f0f0f0;
+}
+.progress { font-size: 12px; color: #9aa0a6; }
+.more {
+  border: none; background: transparent; color: #ff5a5f;
+  font-size: 13px; cursor: pointer; font-weight: 600;
+}
+.more:hover { text-decoration: underline; }
+
+/* 相关推荐（强化显示） */
+.related { padding: 8px 14px 12px; background: #f7f8fa; border-top: 1px solid #f0f0f0; }
+.rel-title { font-size: 13px; color: #5a6169; margin-bottom: 8px; font-weight: 700; }
+.rel-list { display: flex; flex-direction: column; gap: 8px; }
+.rel-item { display: flex; align-items: center; gap: 8px; }
+.rel-thumb {
+  width: 36px; height: 36px; border-radius: 6px; flex: none;
+  background: linear-gradient(135deg, #ff5a5f, #ff8a3d);
+  color: #fff; font-size: 12px; display: flex; align-items: center; justify-content: center;
+}
+.rel-thumb.alt { background: linear-gradient(135deg, #4f8cff, #5ad0ff); }
+.rel-thumb.alt2 { background: linear-gradient(135deg, #34c77b, #8ed16b); }
+.rel-text { font-size: 13.5px; color: #1f2329; line-height: 1.35; font-weight: 600; }
+
+/* 工具栏（仅设置面板内的按钮复用 .tool / .tool.primary） */
+.tool {
+  flex: 1; border: 1px solid #eceef1; background: #fff; color: #51565e;
+  font-size: 12px; padding: 7px 0; border-radius: 8px; cursor: pointer;
+}
+.tool:hover { background: #f6f7f9; color: #ff5a5f; border-color: #ffd6d6; }
+
+/* 设置面板 */
+.panel {
+  position: absolute; inset: 0; background: rgba(255,255,255,0.98);
+  border-radius: 14px; padding: 18px 16px; display: flex; flex-direction: column; gap: 14px;
+  overflow-y: auto;
+}
+.panel.hidden { display: none; }
+.panel-head { font-size: 16px; font-weight: 700; color: #1f2329; }
+.field { display: flex; flex-direction: column; gap: 6px; font-size: 13px; color: #51565e; }
+.field.row { flex-direction: row; align-items: center; justify-content: space-between; }
+.field-group-title { font-size: 12px; color: #9aa0a6; font-weight: 600; margin-top: 2px; padding-bottom: 2px; border-bottom: 1px dashed #eceef1; }
+.field input[type="number"], .field input[type="text"] {
+  border: 1px solid #e3e6ea; border-radius: 8px; padding: 8px 10px; font-size: 13px; outline: none;
+}
+.field input:focus { border-color: #ff8a3d; }
+.panel-tip { font-size: 12px; color: #9aa0a6; line-height: 1.6; margin-top: auto; }
+.panel-actions { display: flex; gap: 10px; }
+.panel-actions .tool { flex: 1; }
+.tool.primary { background: #ff5a5f; color: #fff; border-color: #ff5a5f; }
+.tool.primary:hover { background: #ff474c; }

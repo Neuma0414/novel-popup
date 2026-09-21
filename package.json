@@ -1,0 +1,53 @@
+{
+  "name": "novel-popup",
+  "version": "1.0.0",
+  "description": "摸鱼小说弹窗 - 右下角仿新闻资讯推送的桌面小说阅读器",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "test": "node --test",
+    "dist": "electron-builder",
+    "pack": "electron-packager . \"资讯阅读器\" --platform=win32 --arch=x64 --out=dist --overwrite --ignore=node_modules --ignore=^/dist$ --ignore=^/scripts$ --ignore=^/test$ --icon=assets/tray-icon.ico",
+    "gen-icon": "node scripts/gen-icon.js"
+  },
+  "keywords": [
+    "electron",
+    "reader",
+    "novel",
+    "txt",
+    "desktop",
+    "windows"
+  ],
+  "author": "",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OWNER/REPO.git"
+  },
+  "bugs": {
+    "url": "https://github.com/OWNER/REPO/issues"
+  },
+  "homepage": "https://github.com/OWNER/REPO#readme",
+  "devDependencies": {
+    "electron": "^31.0.0",
+    "electron-builder": "^24.13.3",
+    "electron-packager": "^17.1.2"
+  },
+  "build": {
+    "appId": "com.novelpopup.app",
+    "productName": "资讯阅读器",
+    "win": {
+      "target": "portable",
+      "icon": "assets/tray-icon.png"
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "src/**/*",
+      "assets/**/*"
+    ],
+    "directories": {
+      "output": "dist"
+    }
+  }
+}
