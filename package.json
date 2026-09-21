@@ -19,16 +19,16 @@
     "desktop",
     "windows"
   ],
-  "author": "",
+  "author": "Neuma0414",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/OWNER/REPO.git"
+    "url": "git+https://github.com/Neuma0414/novel-popup.git"
   },
   "bugs": {
-    "url": "https://github.com/OWNER/REPO/issues"
+    "url": "https://github.com/Neuma0414/novel-popup/issues"
   },
-  "homepage": "https://github.com/OWNER/REPO#readme",
+  "homepage": "https://github.com/Neuma0414/novel-popup#readme",
   "devDependencies": {
     "electron": "^31.0.0",
     "electron-builder": "^24.13.3",
