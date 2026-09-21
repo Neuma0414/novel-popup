@@ -121,7 +121,8 @@ npm test
 本仓库在 GitHub 与 Gitee 之间保持双向自动同步，两端内容一致：
 
 - GitHub 侧提交 → 秒级同步到 Gitee
-- Gitee 侧提交 → 10 分钟内同步回 GitHub
+- Gitee 侧提交 → 约 17 分钟内同步回 GitHub（定时任务名义 10 分钟一次，GitHub 调度会排队延后）
+- 同步范围为 **`main` 分支的提交与标签**；其他分支、Issues、PR、Wiki 等不在同步范围内
 - 无需自建服务器，无需 Gitee 付费镜像功能，**配置完成后不需要任何定期人工维护**
 
 定时任务自带保活心跳，会自动规避 GitHub「公开仓库 60 天无活动即禁用定时任务」的限制。机制、配置步骤与排查表见 [docs/SYNC.md](docs/SYNC.md)。
