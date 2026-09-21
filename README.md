@@ -1,5 +1,9 @@
 # 资讯阅读器（novel-popup）
 
+[![双平台同步](https://github.com/OWNER/REPO/actions/workflows/sync.yml/badge.svg)](https://github.com/OWNER/REPO/actions/workflows/sync.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Gitee](https://img.shields.io/badge/Gitee-mirror-c71d23.svg)](https://gitee.com/GITEE_USER/REPO)
+
 把本地 TXT 小说伪装成一条右下角的「新闻资讯推送」，常驻系统托盘、可一键秒隐的 Windows 桌面阅读器。
 
 基于 Electron 开发，无后端、无联网请求，导入的文本只存在本机。
