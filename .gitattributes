@@ -1,0 +1,12 @@
+# 统一换行符，避免 Windows / Linux / macOS 之间互相提交时产生整文件差异
+* text=auto eol=lf
+
+# 二进制文件不做换行转换，也不要尝试合并
+*.png binary
+*.ico binary
+*.exe binary
+*.dll binary
+*.asar binary
+
+# 生成物默认不计入语言统计
+package-lock.json -diff linguist-generated
