@@ -1,12 +1,23 @@
-// 把 assets/tray-icon.png 封装成 Windows ICO（assets/tray-icon.ico）
+// 由 assets/tray-icon.png 生成一份「最小可用」的 assets/tray-icon.ico
 // 只依赖 Node 内置模块：ICO 容器自 Vista 起允许直接内嵌 PNG 数据块。
-// 用法：npm run gen-icon
+//
+// ⚠️ 注意：本脚本生成的是**单尺寸** ICO，而仓库中随源码提供的
+//    assets/tray-icon.ico 是**多分辨率**版本（48/32/16/256 四层），
+//    Windows 在不同 DPI 下会挑选对应层，显示效果更好。
+//    直接运行本脚本会把那个多分辨率图标降级替换掉，因此默认带保护：
+//    若生成结果小于现有文件，脚本会拒绝覆盖并退出。
+//
+// 用法：
+//   npm run gen-icon        # 有保护，体积变小则拒绝
+//   npm run gen-icon:force  # 强制覆盖
+//   node scripts/gen-icon.js --force
 
 const fs = require('fs');
 const path = require('path');
 
 const SRC = path.join(__dirname, '..', 'assets', 'tray-icon.png');
 const OUT = path.join(__dirname, '..', 'assets', 'tray-icon.ico');
+const FORCE = process.argv.includes('--force');
 
 // 读取 PNG 尺寸（IHDR 位于固定偏移：8 字节签名 + 4 长度 + 4 类型）
 function readPngSize(buf) {
@@ -37,11 +48,31 @@ function buildIco(png, width, height) {
   return Buffer.concat([header, entry, png]);
 }
 
+// 统计现有 ICO 内含的图像层数（偏移 4 字节处的 uint16）
+function countIcoLayers(buf) {
+  if (buf.length < 6 || buf.readUInt16LE(0) !== 0 || buf.readUInt16LE(2) !== 1) return 0;
+  return buf.readUInt16LE(4);
+}
+
 function main() {
   const png = fs.readFileSync(SRC);
   const { width, height } = readPngSize(png);
-  fs.writeFileSync(OUT, buildIco(png, width, height));
-  console.log(`已生成 ${path.relative(process.cwd(), OUT)}（${width}x${height}，${fs.statSync(OUT).size} 字节）`);
+  const built = buildIco(png, width, height);
+  const rel = path.relative(process.cwd(), OUT);
+
+  if (fs.existsSync(OUT)) {
+    const existing = fs.readFileSync(OUT);
+    if (existing.length > built.length && !FORCE) {
+      console.error('✋ 已阻止覆盖：现有 ICO 比生成结果更大，很可能是多分辨率版本。');
+      console.error(`   现有 ${rel}：${existing.length} 字节，内含 ${countIcoLayers(existing)} 层图像`);
+      console.error(`   本次生成：${built.length} 字节，仅含 1 层（${width}x${height}）`);
+      console.error('   若确实要替换，请运行：npm run gen-icon:force');
+      process.exit(1);
+    }
+  }
+
+  fs.writeFileSync(OUT, built);
+  console.log(`已生成 ${rel}（${width}x${height}，${built.length} 字节，1 层）`);
 }
 
 main();
