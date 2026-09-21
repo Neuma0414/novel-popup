@@ -4,12 +4,22 @@ name: 🔁 GitHub ⇄ Gitee 双向同步
 #   1. push       —— GitHub 侧一提交就立刻同步到 Gitee（秒级）
 #   2. schedule   —— 每 10 分钟兜底检查一次，把 Gitee 侧的提交拉回 GitHub
 #   3. 手动       —— 在 Actions 页面点 "Run workflow" 可随时强制对齐
+#
+# 步骤：
+#   ① 配置远端  ② 比对两端并收敛（scripts/sync.sh）
+#   ③ 条件心跳（scripts/keepalive.sh，防止 60 天无活动被 GitHub 禁用定时任务）
+#   ④ 汇总结果到 Actions Summary
 on:
   push:
     branches: [main]
   schedule:
     - cron: '*/10 * * * *'
   workflow_dispatch:
+    inputs:
+      force_heartbeat:
+        description: 强制插入一次保活心跳（用于验证保活机制是否生效）
+        type: boolean
+        default: false
 
 # 同一时间只允许一个同步任务，避免两次运行互相覆盖
 concurrency:
@@ -50,13 +60,23 @@ jobs:
       - name: 比对两端并单向收敛
         run: bash scripts/sync.sh
 
+      - name: 条件心跳（防止 60 天无活动导致定时任务被自动禁用）
+        if: github.event_name == 'schedule' || inputs.force_heartbeat
+        env:
+          SYNC_BRANCH: main
+          THRESHOLD_DAYS: '45'
+          FORCE: ${{ inputs.force_heartbeat }}
+        run: bash scripts/keepalive.sh
+
       - name: 同步结果
         run: |
           set -euo pipefail
+          HB="${{ env.heartbeat }}"
           echo "### 同步完成" >> "$GITHUB_STEP_SUMMARY"
           echo "" >> "$GITHUB_STEP_SUMMARY"
           echo "| 项目 | 值 |" >> "$GITHUB_STEP_SUMMARY"
           echo "| --- | --- |" >> "$GITHUB_STEP_SUMMARY"
           echo "| 触发方式 | \`${{ github.event_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
           echo "| 执行结果 | ${{ env.direction }} |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| 保活心跳 | ${HB:-未执行} |" >> "$GITHUB_STEP_SUMMARY"
           echo "| GitHub main | \`$(git rev-parse origin/main 2>/dev/null || echo -)\` |" >> "$GITHUB_STEP_SUMMARY"

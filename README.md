@@ -83,7 +83,13 @@ npm run gen-icon  # assets/tray-icon.png -> assets/tray-icon.ico
 │   ├── novel-parser.js   # 纯 Node 模块：TXT -> 章节数组，不依赖 Electron
 │   └── sample-novel.json # 内置示例小说
 ├── assets                # 托盘与应用图标
-├── scripts/gen-icon.js   # PNG -> ICO
+├── scripts
+│   ├── gen-icon.js       # PNG -> ICO
+│   ├── sync.sh           # GitHub ⇄ Gitee 同步核心逻辑
+│   └── keepalive.sh      # 定时任务保活心跳
+├── .github
+│   ├── workflows/sync.yml # 同步 workflow
+│   └── keepalive.txt     # 心跳文件（由 workflow 自动更新）
 └── test                  # novel-parser 单元测试（node --test）
 ```
 
@@ -109,7 +115,13 @@ npm test
 
 ## 多平台同步
 
-本仓库在 GitHub 与 Gitee 之间保持双向自动同步，两端内容一致。机制与配置方式见 [docs/SYNC.md](docs/SYNC.md)。
+本仓库在 GitHub 与 Gitee 之间保持双向自动同步，两端内容一致：
+
+- GitHub 侧提交 → 秒级同步到 Gitee
+- Gitee 侧提交 → 10 分钟内同步回 GitHub
+- 无需自建服务器，无需 Gitee 付费镜像功能，**配置完成后不需要任何定期人工维护**
+
+定时任务自带保活心跳，会自动规避 GitHub「公开仓库 60 天无活动即禁用定时任务」的限制。机制、配置步骤与排查表见 [docs/SYNC.md](docs/SYNC.md)。
 
 ## 开源协议
 
