@@ -1,5 +1,6 @@
 # 资讯阅读器（novel-popup）
 
+[![Release](https://img.shields.io/github/v/release/Neuma0414/novel-popup?label=release&color=success)](https://github.com/Neuma0414/novel-popup/releases/latest)
 [![双平台同步](https://github.com/Neuma0414/novel-popup/actions/workflows/sync.yml/badge.svg)](https://github.com/Neuma0414/novel-popup/actions/workflows/sync.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Gitee](https://img.shields.io/badge/Gitee-mirror-c71d23.svg)](https://gitee.com/neuma/novel-popup)
@@ -9,6 +10,32 @@
 基于 Electron 开发，无后端、无联网请求，导入的文本只存在本机。
 
 > 本项目仅供个人学习与自用。请确保你导入的文本拥有合法使用权，不要用于传播侵权内容。
+
+---
+
+## 下载
+
+**不想折腾环境？直接下打包好的绿色版**（Windows 10 / 11，64 位，106 MB）：
+
+| 下载源 | 链接 | 说明 |
+| --- | --- | --- |
+| GitHub Releases | [novel-popup-v1.0.0-win32-x64.zip](https://github.com/Neuma0414/novel-popup/releases/latest) | 官方发布页 |
+| Gitee 镜像 | [gitee.com/neuma/novel-popup/releases](https://gitee.com/neuma/novel-popup/releases) | 国内下载更快 |
+
+用法：**解压 → 双击 `资讯阅读器.exe`**。绿色版，无需安装、不需要管理员权限、不写注册表，删掉整个文件夹即彻底卸载。
+
+<details>
+<summary>SHA-256 校验值（点开）</summary>
+
+```
+bc885569fe1d2b1c4d7d2c261855b095d832af4e3b39467c3a00576fb56cda6a
+```
+
+</details>
+
+> ⚠️ **首次运行会被 SmartScreen 拦一下，属正常现象。**
+> 程序未做代码签名（个人开源项目），Windows 会提示「已保护你的电脑 / 未知发布者」。
+> 点「更多信息」→「仍要运行」即可。如不放心，可对照上方 SHA-256，或按下方「从源码运行」自行构建。
 
 ---
 
@@ -42,7 +69,7 @@
 | 快捷键自定义 | 上一章 / 下一章 / 上下滚动均可自行录入组合键 |
 | 开机自启 | 可在设置中开关 |
 
-## 快速开始
+## 从源码运行
 
 需要 Node.js 18+。
 
@@ -139,9 +166,11 @@ npm test
 本仓库在 GitHub 与 Gitee 之间保持双向自动同步，两端内容一致：
 
 - GitHub 侧提交 → 秒级同步到 Gitee
-- Gitee 侧提交 → 约 17 分钟内同步回 GitHub（定时任务名义 10 分钟一次，GitHub 调度会排队延后）
+- Gitee 侧提交 → 由定时任务拉回 GitHub，实际延迟随平台负载浮动（实测 26–41 分钟，名义间隔 10 分钟）
 - 同步范围为 **`main` 分支的提交与标签**；其他分支、Issues、PR、Wiki 等不在同步范围内
 - 无需自建服务器，无需 Gitee 付费镜像功能，**配置完成后不需要任何定期人工维护**
+
+> **发布包（Release 附件）不会自动同步**，需在两端的 Releases 页面分别上传，见 [docs/SYNC.md](docs/SYNC.md)。
 
 定时任务自带保活心跳，会自动规避 GitHub「公开仓库 60 天无活动即禁用定时任务」的限制。机制、配置步骤与排查表见 [docs/SYNC.md](docs/SYNC.md)。
 
