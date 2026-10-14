@@ -12,6 +12,21 @@
 
 ---
 
+## 截图
+
+它就待在桌面右下角，和别的消息通知混在一起，不仔细看不会留意：
+
+<p align="center">
+  <img src="docs/images/screenshot-desktop.png" alt="弹窗出现在桌面右下角的实际效果" width="820">
+</p>
+
+弹窗本身是一次完整的「资讯推送」：标题栏是虚拟资讯标题，真实的书名与章节名藏在「来源」行里，
+正文按节奏逐段揭示，下方还有一组同样属于小说的「相关推荐」：
+
+<p align="center">
+  <img src="docs/images/screenshot-popup.png" alt="弹窗特写：伪装成资讯推送的阅读界面" width="430">
+</p>
+
 ## 功能特性
 
 | 功能 | 说明 |
@@ -90,6 +105,9 @@ npm run gen-icon  # assets/tray-icon.png -> assets/tray-icon.ico
 ├── .github
 │   ├── workflows/sync.yml # 同步 workflow
 │   └── keepalive.txt     # 心跳文件（由 workflow 自动更新）
+├── docs
+│   ├── SYNC.md           # GitHub ⇄ Gitee 同步机制说明
+│   └── images            # README 截图
 └── test                  # novel-parser 单元测试（node --test）
 ```
 
